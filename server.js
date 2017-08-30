@@ -1,6 +1,6 @@
 var express = require('express');
 var env = require('node-env-file');
-var pdfMake = require('pdfmake');
+const PdfPrinter = require('pdfmake');
 var app = express();
 var port = process.env.PORT || 8080;
 
@@ -14,8 +14,19 @@ app.set('view engine', 'ejs');
 
 // add routes
 app.get('/', function(req, res) {
+    var fonts = {
+        Roboto: {
+            normal: 'fonts/Roboto-Regular.ttf',
+            bold: 'fonts/Roboto-Medium.ttf',
+            italics: 'fonts/Roboto-Italic.ttf',
+            bolditalics: 'fonts/Roboto-MediumItalic.ttf'
+        }
+    };
+    const printer = new PdfPrinter(fonts);
     const docDefinition = { content: 'This is an sample PDF printed with pdfMake' };
-    pdfMake.createPdf(docDefinition).download();    
+    const pdf = printer.createPdfKitDocument(docDefinition);
+    pdf.pipe(res);
+    pdf.end();
 });
 
 // Serve your app
