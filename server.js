@@ -45,12 +45,12 @@ app.get('/', function(req, res) {
 });
 app.get('/oauth/callback', function(req, res) {
     let authorizationCode = req.query.code;
+    console.log(`Auth code <${authorizationCode}`);
     let args = {
         "redirect_uri": callbackUrl,
         "client_id": consumerKey,
         "client_secret": consumerSecret,
         "code": authorizationCode
-
     };
     oauth2.authenticate(args, function(err, payload) {
         if (err) {
