@@ -1,6 +1,7 @@
 var express = require('express');
 var env = require('node-env-file');
 var dateFormat = require('dateformat');
+var oauth2 = require('salesforce-oauth2');
 const PdfPrinter = require('pdfmake');
 const pdfFonts = {
     Roboto: {
@@ -10,6 +11,7 @@ const pdfFonts = {
         bolditalics: 'fonts/Roboto-MediumItalic.ttf'
     }
 };
+
 var app = express();
 var port = process.env.PORT || 8080;
 
@@ -18,11 +20,46 @@ try {
 	env(__dirname + '/.env');
 } catch (e) {}
 
+// get oauth data
+const baseUrl = process.env.OAUTH_BASE_URL || 'https://login.salesforce.com';
+const callbackUrl = process.env.OAUTH_CALLBACK_URL;
+const consumerKey = process.env.OAUTH_CONSUMER_KEY;
+const consumerSecret = process.env.OAUTH_CONSUMER_SECRET;
+console.log(`Using OAUTH_BASE_URL: ${baseUrl}`);
+
 // ejs view engine
 app.set('view engine', 'ejs');
 
 // add routes
 app.get('/', function(req, res) {
+    var uri = oauth2.getAuthorizationUrl({
+        redirect_uri: callbackUrl,
+        client_id: consumerKey,
+        scope: 'api',
+        base_url: baseUrl
+    });
+    return res.redirect(uri);
+});
+app.get('/oauth/callback', function(req, res) {
+    let authorizationCode = req.query.code;
+    let args = {
+        "redirect_uri": callbackUrl,
+        "client_id": consumerKey,
+        "client_secret": consumerSecret,
+        "code": authorizationCode
+
+    };
+    oauth2.authenticate(args, function(err, payload) {
+        if (err) {
+            res.send(JSON.stringify(err));
+            return;
+        }
+        console.log(payload);
+        const instance_url = payload.instance_url;
+        res.write(`received data: ${instance_url}`);
+    });
+})
+app.get('/print', function(req, res) {
     const printer = new PdfPrinter(pdfFonts);
     const generatedDate = dateFormat(new Date(), 'yyyy-mm-dd HH:MM');
     const docDefinition1 = { content: 'This is an sample PDF printed with pdfMake' };
