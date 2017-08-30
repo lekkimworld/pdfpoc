@@ -43,6 +43,7 @@ app.get('/', function(req, res) {
 app.get('/oauth/callback', function(req, res) {
     let authorizationCode = req.query.code;
     let args = {
+        "grant_type": "authorization_code",
         "redirect_uri": callbackUrl,
         "client_id": consumerKey,
         "client_secret": consumerSecret,
