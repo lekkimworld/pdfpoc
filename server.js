@@ -26,6 +26,9 @@ const callbackUrl = process.env.OAUTH_CALLBACK_URL;
 const consumerKey = process.env.OAUTH_CONSUMER_KEY;
 const consumerSecret = process.env.OAUTH_CONSUMER_SECRET;
 console.log(`Using OAUTH_BASE_URL: ${baseUrl}`);
+console.log(`Using OAUTH_CALLBACK_URL: ${callbackUrl}`);
+console.log(`Using OAUTH_CONSUMER_KEY: ${consumerKey.substring(0,5)}...`);
+console.log(`Using OAUTH_CONSUMER_SECRET: ${consumerSecret.substring(0, 5)}...`);
 
 // ejs view engine
 app.set('view engine', 'ejs');
@@ -43,7 +46,6 @@ app.get('/', function(req, res) {
 app.get('/oauth/callback', function(req, res) {
     let authorizationCode = req.query.code;
     let args = {
-        "grant_type": "authorization_code",
         "redirect_uri": callbackUrl,
         "client_id": consumerKey,
         "client_secret": consumerSecret,
