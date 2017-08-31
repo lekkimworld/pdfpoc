@@ -16,12 +16,20 @@ Deployment to [Heroku](http://heroku.com) is by far the easiest:
   * OAUTH_BASE_URL (optional - set to https://test.salesforce.com for sandboxes)
 * Push code to Heroku: ```git push heroku master```
 
-### Deployment steps
+### Deployment steps (Heroku)
 ```bash
-  heroku config:set OAUTH_CONSUMER_SECRET=shhh... 
-  heroku config:set OAUTH_CONSUMER_KEY=foo 
-  heroku config:set OAUTH_CALLBACK_URL=https://funky-bastion-28732.herokuapp.com/oauth/callback
-  ```
+heroku apps:create
+heroku config:set OAUTH_CONSUMER_SECRET=shhh... 
+heroku config:set OAUTH_CONSUMER_KEY=foo 
+heroku config:set OAUTH_CALLBACK_URL=https://funky-bastion-28732.herokuapp.com/oauth/callback
+git push heroku master
+heroku open
+```
+### Deployment steps (Docker)
+```
+docker build -t lekkim/pdfpoc .
+docker run -p 8080:8080 -d lekkim/pdfpoc
+```
 
 ## Licenses
 This project is licensed using the MIT license and dependencies are listed in the licenses.txt file.
