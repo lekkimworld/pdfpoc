@@ -53,6 +53,7 @@ app.get('/', function(req, res) {
         redirect_uri: callbackUrl,
         client_id: consumerKey,
         scope: 'api',
+        prompt: 'login consent',
         base_url: baseUrl
     });
     return res.redirect(uri);
