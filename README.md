@@ -22,3 +22,6 @@ Deployment to [Heroku](http://heroku.com) is by far the easiest:
   heroku config:set OAUTH_CONSUMER_KEY=foo 
   heroku config:set OAUTH_CALLBACK_URL=https://funky-bastion-28732.herokuapp.com/oauth/callback
   ```
+
+## Licenses
+This project is licensed using the MIT license and dependencies are listed in the licenses.txt file.

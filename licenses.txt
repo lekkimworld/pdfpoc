@@ -1,0 +1,11 @@
+department  related to  name               license period  material / not material  license type  link                                                comment
+----------  ----------  ----               --------------  -----------------------  ------------  ----                                                -------
+kessler     stuff       dateformat         perpetual       material                 MIT           git+https://github.com/felixge/node-dateformat.git  2.0.0
+kessler     stuff       ejs                perpetual       material                 Apache-2.0    git://github.com/mde/ejs.git                        2.5.7
+kessler     stuff       express            perpetual       material                 MIT           git+https://github.com/expressjs/express.git        4.15.4
+kessler     stuff       express-session    perpetual       material                 MIT           git+https://github.com/expressjs/session.git        1.15.5
+kessler     stuff       node-env-file      perpetual       material                 MIT           git+https://github.com/grimen/node-env-file.git     0.1.8
+kessler     stuff       pdfmake            perpetual       material                 MIT           git://github.com/bpampuch/pdfmake.git               0.1.32
+kessler     stuff       request            perpetual       material                 Apache-2.0    git+https://github.com/request/request.git          2.81.0
+kessler     stuff       request-promise    perpetual       material                 ISC           git+https://github.com/request/request-promise.git  4.2.1
+kessler     stuff       salesforce-oauth2  perpetual       material                 n/a           https://github.com/cangencer/salesforce-oauth2      0.1.8
