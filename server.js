@@ -86,7 +86,7 @@ app.get('/print', function(req, res) {
 
     // use Salesforce API to get users
     const options = {
-        uri: `${req.session.instance_url}/services/data/v39.0/query/?q=SELECT+Id,+Firstname,+Lastname,+Email+FROM+User`,
+        uri: `${req.session.instance_url}/services/data/v39.0/query/?q=SELECT+Id,+Firstname,+Lastname,+Email+FROM+User ORDER BY Firstname ASC LIMIT 100`,
         headers: {
             "Authorization": `Bearer ${req.session.access_token}`,
             "Content-Type": "application/json"
