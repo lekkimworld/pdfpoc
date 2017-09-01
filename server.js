@@ -20,7 +20,7 @@ const pdfFonts = {
 
 var app = express();
 app.use(session({
-    "client": client,
+    "client": redisClient,
     "store": new RedisStore(options),
     "secret": 'keyboard cat'
 }));
