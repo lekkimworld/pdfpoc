@@ -5,7 +5,10 @@ var dateFormat = require('dateformat');
 var oauth2 = require('salesforce-oauth2');
 var rp = require('request-promise');
 var redis = require("redis");
-var redisClient = redis.createClient();
+var redisClient = redis.createClient(process.env.REDIS_URL);
+redisClient.on('error', (err) => {
+    console.log('Redis error', err);
+});
 var RedisStore = require('connect-redis')(session);
 
 const PdfPrinter = require('pdfmake');
