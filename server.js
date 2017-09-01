@@ -4,6 +4,10 @@ var env = require('node-env-file');
 var dateFormat = require('dateformat');
 var oauth2 = require('salesforce-oauth2');
 var rp = require('request-promise');
+var redis = require("redis");
+var redisClient = redis.createClient();
+var RedisStore = require('connect-redis')(session);
+
 const PdfPrinter = require('pdfmake');
 const pdfFonts = {
     Roboto: {
@@ -13,13 +17,13 @@ const pdfFonts = {
         bolditalics: 'fonts/Roboto-MediumItalic.ttf'
     }
 };
-const sess = {
-    secret: 'keyboard cat',
-    cookie: {}
-}
 
 var app = express();
-app.use(session(sess));
+app.use(session({
+    "client": client,
+    "store": new RedisStore(options),
+    "secret": 'keyboard cat'
+}));
 var port = process.env.PORT || 8080;
 
 // Load environment variables for localhost
