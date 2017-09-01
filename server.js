@@ -4,6 +4,13 @@ var env = require('node-env-file');
 var dateFormat = require('dateformat');
 var oauth2 = require('salesforce-oauth2');
 var rp = require('request-promise');
+var redis = require("redis");
+var redisClient = redis.createClient(process.env.REDIS_URL);
+redisClient.on('error', (err) => {
+    console.log('Redis error', err);
+});
+var RedisStore = require('connect-redis')(session);
+
 const PdfPrinter = require('pdfmake');
 const pdfFonts = {
     Roboto: {
@@ -13,13 +20,12 @@ const pdfFonts = {
         bolditalics: 'fonts/Roboto-MediumItalic.ttf'
     }
 };
-const sess = {
-    secret: 'keyboard cat',
-    cookie: {}
-}
 
 var app = express();
-app.use(session(sess));
+app.use(session({
+    "store": new RedisStore({"client": redisClient}),
+    "secret": 'keyboard cat'
+}));
 var port = process.env.PORT || 8080;
 
 // Load environment variables for localhost
@@ -43,7 +49,7 @@ app.set('view engine', 'ejs');
 // add routes
 app.get('/', function(req, res) {
     // see if there is an access token already
-    if (req.session.access_token) {
+    if (req.session && req.session.access_token) {
         res.redirect('/print');
         return;
     }
