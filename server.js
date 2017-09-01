@@ -46,7 +46,7 @@ app.set('view engine', 'ejs');
 // add routes
 app.get('/', function(req, res) {
     // see if there is an access token already
-    if (req.session.access_token) {
+    if (req.session && req.session.access_token) {
         res.redirect('/print');
         return;
     }
